@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>js选项卡</title>
+		<link type="text/css" href="assets/css/base.css" rel="stylesheet" />
+		<link type="text/css" href="assets/css/tab.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="tab">
+			<div class="tab-title">
+			  <a href="javascript:;" class="item item-cur">Tab1</a>
+			  <a href="javascript:;" class="item">Tab2</a>
+			  <a href="javascript:;" class="item">Tab3</a>
+			  <a href="javascript:;" class="item">Tab4</a>
+			  <a href="javascript:;" class="item">Tab5</a>
+			</div>
+			<div class="tab-cont">
+			  <ul class="tab-cont_wrap">
+				<li class="item">Cont1</li>
+				<li class="item">Cont2</li>
+				<li class="item">Cont3</li>
+				<li class="item">Cont4</li>
+				<li class="item">Cont5</li>
+			  </ul>
+			</div>
+		</div>
+		<script src="assets/js/tab.js"></script>
+		<script>
+			tab({
+				curIndex: 1,
+			})
+		</script>
+	</body>
+</html>

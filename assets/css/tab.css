@@ -1,0 +1,53 @@
+
+body { 
+	font-family: "Microsoft Yahei";
+	font-size: 14px; 
+	color: #333; 
+}
+a, a:hover { 
+	text-decoration: none; 
+	color: #333; 
+}
+ul, li { 
+	list-style: none; 
+}
+
+.tab {
+  width: 400px;
+  margin: 30px auto;
+}
+.tab-title {
+  height: 30px;
+  font-size: 0;
+  background-color: #f5f5f5;
+}
+.tab-title .item {
+  display: inline-block;
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #333;
+  font-size: 16px;
+}
+.tab-title .item-cur {
+  color: #fff;
+  background-color: #80b600;
+}
+.tab-cont {
+  position: relative;
+  background-color: #80b600;
+  width: 400px;
+  height: 200px;
+  overflow: hidden;
+}
+.tab-cont_wrap {
+  position: absolute;
+}
+.tab-cont .item {
+  width: 400px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  color: #fff;
+}
