@@ -6,7 +6,8 @@
 		self.opts = self.getConfig(options);
 		
 		// 获取相应的dom节点
-		self.tab_list = doc.getElementsByClassName('tab-title')[0].getElementsByClassName('item');
+		self.tab_title = doc.getElementsByClassName('tab-title')[0],
+		self.tab_list = self.tab_title.getElementsByClassName('item');
 		self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
 		self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
 		
@@ -18,6 +19,21 @@
 			var self = this;
 			self.setData();
 			self.tabInital();
+			
+			
+			if (this.opts.mouse === 'click') {
+				setIndex(this.tab_list);
+				EventUtil.addHandler(this.tab_title, 'click', function (event) {
+					var event = window.event || event,
+						target = event.target || e.srcElement;
+						if (target.nodeName === 'A') {
+							self.changeTab(target.index);
+						}
+						
+					
+				})
+				
+			}
 		},
 		/**
 		 * getConfig 设置配置信息
@@ -85,7 +101,22 @@
 			}
 		},
 		changeTab: function (index) {
+			removeClass(this.tab_list, 'item-cur');
+			addClass(this.tab_list[index], 'item-cur');
 			
+			switch (this.opts.changeMethod) {
+				case 'horizontal':
+					
+					setCss(this.tabCont_wrap, 'left',  -index
+									* parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px');
+			
+					break;
+				case 'default':
+				default :
+					setCss(this.tab_cont, 'display', 'none');
+					setCss(this.tab_cont[index], 'display', 'block');
+					break;
+			}
 		}
 	}
 	window.tab = function (options) {
@@ -121,12 +152,12 @@
 			for (; i < len; i++) {
 				elem[i].className = elem[i].className.replace(
 									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), " "
-								)
+							);
 			}
 		} else {
 			elem.className =  elem.className.replace(
 									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), " "
-								)
+							);
 		}
 	}
 	/**
@@ -146,5 +177,31 @@
 			elem.style[attr] = value;
 		}
 	}
+	/**
+	 * 设置元素组的index
+	 * @param {Object} elems
+	 */
+	function setIndex(elems) {
+		var i = 0;
+			len = elems.length;
+			if (len > 1) {
+				for (; i < len; i++) {
+					elems[i].index = i;
+				}
+			}
+		
+	}
+	 var EventUtil = {
+	 	addHandler: function (elem, type, handler) {
+	 		if (elem.addEventListener) {
+	 			elem.addEventListener(type, handler, false);
+	 		} else if (elem.attachEvent) {
+	 			elem.attachEvent('on' + type, handler);
+	 		} else {
+	 			elem['on' + type] = handler;
+	 		}
+	 		
+	 	}
+	 };
 	
 })(window, document)
