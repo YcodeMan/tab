@@ -64,16 +64,16 @@
 			
 			switch (this.opts.changeMethod) {
 				case 'horizontal':
-					setCss(this.tabCont_wrap, 'width', tab_len * tab_w + 'px')
-					setCss(this.tab_cont, 'float', 'left')
+					css(this.tabCont_wrap, {width: tab_len * tab_w + 'px'});
+					css(this.tab_cont, {float: 'left'});
 					break;
 				case 'vertical':
-					setCss(this.tabCont_wrap, 'hiegth', tab_len * tab_h + 'px')
+					css(this.tabCont_wrap, {hiegth: tab_len * tab_h + 'px'});
 					break;
 				case 'default':
 				case 'opacity':
 				default :
-					setCss(this.tab_cont, 'display', 'none');
+					css(this.tab_cont, {display: 'none'});
 				break;
 					
 			}
@@ -87,16 +87,16 @@
 			switch (this.opts.changeMethod) {
 				case 'horizontal':
 					var w = -index * parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px';
-						setCss(this.tabCont_wrap, 'left', w);
+						css(this.tabCont_wrap, {left: w});
 					break;
 				case 'vertical':
 					var h = -index * parseInt(getComputedStyle(this.tab_cont[0]).height) + 'px';
-						setCss(this.tabCont_wrap, 'top', h);
+						css(this.tabCont_wrap, {top: h});
 					break;
 				case 'opacity':
 				case 'default':
 				default :
-					setCss(this.tab_cont[index], 'display', 'block');
+					css(this.tab_cont[index], {display: 'block'});
 					break;
 			}
 		},
@@ -106,15 +106,15 @@
 			
 			switch (this.opts.changeMethod) {
 				case 'horizontal':
+					css(this.tabCont_wrap, {
+						left: -index * parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px'
+					});
 					
-					setCss(this.tabCont_wrap, 'left',  -index
-									* parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px');
-			
 					break;
 				case 'default':
 				default :
-					setCss(this.tab_cont, 'display', 'none');
-					setCss(this.tab_cont[index], 'display', 'block');
+					css(this.tab_cont, {display: 'none'});
+					css(this.tab_cont[index], {display: 'block'});
 					break;
 			}
 		}
@@ -122,7 +122,7 @@
 	window.tab = function (options) {
 		options = options || {};
 		new TabSwitch(options).inital();
-	}
+	};
 	/**
 	 * addClass 添加class
 	 * @param {Object} elem
@@ -160,23 +160,7 @@
 							);
 		}
 	}
-	/**
-	 * setCss 设置css样式
-	 * @param {Object} elem
-	 * @param {Object} attr
-	 * @param {Object} value
-	 */
-	function setCss(elem, attr, value) {
-		var i = 0,
-			len = elem.length;
-		if (len > 1) {
-			for (; i < len; i++) {
-				elem[i].style[attr] = value;
-			}
-		} else {
-			elem.style[attr] = value;
-		}
-	}
+	
 	/**
 	 * 设置元素组的index
 	 * @param {Object} elems
@@ -203,5 +187,40 @@
 	 		
 	 	}
 	 };
+/**
+ * css 设置样式或者获得样式
+ * @param {Object} elems
+ * @param {Object} || {String} attr  如果attr为object则设置样式，为String则获得属性值
+ */
+function css(elems, attr) {
+	var i = 0,
+		item ,
+		len = elems.length;
+		
+	if (len > 1) {
+		for (; i < len; i++) {
+			css(elems[i], attr);
+		}
+		
+	} else {
+		if (isObject(attr)) {
+			for (item in attr) {
+				elems.style[item] = attr[item];
+			}
+		} else if (typeof attr === 'string') {
+			return  win.getComputedStyle 
+					? getComputedStyle(elems,null)[attr] 
+					:  elems.currentStyle[attr];
+			
+		}
+	}
+}
 	
+	
+
+function isObject(obj) {
+	return Object.prototype.toString.call(obj) === '[object Object]';
+}
 })(window, document)
+
+
