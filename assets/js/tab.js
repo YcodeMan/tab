@@ -10,16 +10,14 @@
 		self.tab_list = self.tab_title.getElementsByClassName('item');
 		self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
 		self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
-		
+	
 		self.index = 0;
-		
 	}
 	TabSwitch.prototype = {
 		inital: function () {
 			var self = this;
 			self.setData();
-			self.tabInital();
-			
+			self.tabInital();		
 			
 			if (this.opts.mouse === 'click') {
 				setIndex(this.tab_list);
@@ -29,8 +27,6 @@
 						if (target.nodeName === 'A') {
 							self.changeTab(target.index);
 						}
-						
-					
 				})
 				
 			}
@@ -86,11 +82,11 @@
 			
 			switch (this.opts.changeMethod) {
 				case 'horizontal':
-					var w = -index * parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px';
+					var w = -index * parseInt(css(this.tab_cont[0], 'width')) + 'px';
 						css(this.tabCont_wrap, {left: w});
 					break;
 				case 'vertical':
-					var h = -index * parseInt(getComputedStyle(this.tab_cont[0]).height) + 'px';
+					var h = -index * parseInt(css(this.tab_cont[0], 'height')) + 'px';
 						css(this.tabCont_wrap, {top: h});
 					break;
 				case 'opacity':
@@ -101,15 +97,18 @@
 			}
 		},
 		changeTab: function (index) {
+			
 			removeClass(this.tab_list, 'item-cur');
 			addClass(this.tab_list[index], 'item-cur');
 			
 			switch (this.opts.changeMethod) {
 				case 'horizontal':
-					css(this.tabCont_wrap, {
-						left: -index * parseInt(getComputedStyle(this.tab_cont[0]).width) + 'px'
-					});
-					
+					var w = parseInt(css(this.tab_cont[0],'width'));
+					animate(this.tabCont_wrap, {left: -index * w + 'px'}, 300);
+					break;
+				case 'vertical':
+					var h = parseInt(css(this.tab_cont[0], 'height'));
+					animate(this.tabCont_wrap, {top: -index * h + 'px'}, 300);
 					break;
 				case 'default':
 				default :
@@ -206,6 +205,7 @@ function css(elems, attr) {
 		if (isObject(attr)) {
 			for (item in attr) {
 				elems.style[item] = attr[item];
+				
 			}
 		} else if (typeof attr === 'string') {
 			return  win.getComputedStyle 
@@ -217,7 +217,45 @@ function css(elems, attr) {
 }
 	
 	
-
+//t是走过的时间、d是总时间、c是总路程(灵活的有可能是opacity的变化的值)、b是元素的初始位置
+function linear(t, b, c, d) {
+    return c / d * t + b;
+}
+/**
+ * animate 动画运动
+ * @param {Object} elem
+ * @param {Object} target
+ * @param {Number} duration
+ * @param {Function} callback
+ */
+function animate(elem, target, duration, callback) {
+    var change = {},
+    	begin = {},
+    	key = null,
+    	time = 0,
+    	timer = null
+    	item = null;
+    for (key in target) {
+        begin[key] = parseInt(css(elem, key));
+        change[key] = parseInt(target[key]) - begin[key];
+    }
+	
+	timer = setInterval(function () {
+		time += 20;
+		if (time >= duration) {
+			clearInterval(timer);
+			css(elem, target);
+			
+			typeof callback === 'function' ? callback() : null;
+        	return;
+		}
+		for (item in target) {
+			var current = linear(time, begin[key], change[key], duration);
+			css(elem, {[item]: current + 'px'});
+		}
+		
+	}, 20);
+}
 function isObject(obj) {
 	return Object.prototype.toString.call(obj) === '[object Object]';
 }
