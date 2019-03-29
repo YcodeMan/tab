@@ -1,0 +1,19 @@
+{
+  "name": "tab",
+  "version": "1.0.0",
+  "description": "[demo](https://ycodeman.github.io/tab/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YcodeMan/tab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YcodeMan/tab/issues"
+  },
+  "homepage": "https://github.com/YcodeMan/tab#readme"
+}
