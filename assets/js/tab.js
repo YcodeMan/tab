@@ -110,6 +110,9 @@
 					var h = parseInt(css(this.tab_cont[0], 'height'));
 					animate(this.tabCont_wrap, {top: -index * h + 'px'}, 300);
 					break;
+				case 'opacity':
+				
+					
 				case 'default':
 				default :
 					css(this.tab_cont, {display: 'none'});
@@ -189,9 +192,10 @@
 /**
  * css 设置样式或者获得样式
  * @param {Object} elems
- * @param {Object} || {String} attr  如果attr为object则设置样式，为String则获得属性值
+ * @param {Object | String} attr  如果attr为object则设置样式，为String则获得属性值
+ * @param {String} 属性值
  */
-function css(elems, attr) {
+function css(elems, attr, value) {
 	var i = 0,
 		item ,
 		len = elems.length;
@@ -207,11 +211,13 @@ function css(elems, attr) {
 				elems.style[item] = attr[item];
 				
 			}
-		} else if (typeof attr === 'string') {
+		} else if (typeof attr === 'string' && !value) {
 			return  win.getComputedStyle 
 					? getComputedStyle(elems,null)[attr] 
 					:  elems.currentStyle[attr];
 			
+		} else if (typeof attr === 'string' && typeof value === 'string'){
+			elems.style[attr] = value;
 		}
 	}
 }
@@ -251,7 +257,7 @@ function animate(elem, target, duration, callback) {
 		}
 		for (item in target) {
 			var current = linear(time, begin[key], change[key], duration);
-			css(elem, {[item]: current + 'px'});
+			css(elem, item, current + 'px');
 		}
 		
 	}, 20);
