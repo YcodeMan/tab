@@ -50,17 +50,8 @@ if (!document.getElementsByClassName && Element.prototype) {
 			self.setData();
 			self.tabInital();		
 			
-			if (this.opts.mouse === 'click') {
-				setIndex(this.tab_list);
-				EventUtil.addHandler(this.tab_title, 'click', function (event) {
-					var event = window.event || event,
-						target = event.target || event.srcElement;
-						if (target.nodeName === 'A') {
-							self.changeTab(target.index);
-						}
-				})
-				
-			}
+			self._on(self.opts.mouse);
+			
 		},
 		/**
 		 * getConfig 设置配置信息
@@ -153,6 +144,30 @@ if (!document.getElementsByClassName && Element.prototype) {
 					css(this.tab_cont, {display: 'none'});
 					css(this.tab_cont[index], {display: 'block'});
 					break;
+			}
+		},
+		_on: function (type) {
+			var self = this;
+			setIndex(this.tab_list);
+			if (type === 'click') {
+				
+				EventUtil.addHandler(this.tab_title, 'click', function (event) {
+					var event = win.event || event,
+						target = event.target || event.srcElement;
+						if (target.nodeName === 'A') {
+							self.changeTab(target.index);
+						}
+				});
+					return this;
+			} else if (type === 'hover') {
+				EventUtil.addHandler(this.tab_title, 'mouseover', function (event) {
+					var event = win.event || event;
+					target = event.target || event.srcElement;
+					if (target.nodeName === 'A') {
+						console.log(this);
+						self.changeTab(target.index);
+					}
+				});
 			}
 		}
 	}
@@ -383,7 +398,6 @@ function fideOut(elem, speed,opacity) {
 					}
 				}, 10);
 			}
-			
 		}
 }
 })(window, document)
