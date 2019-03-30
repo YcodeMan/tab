@@ -1,12 +1,43 @@
 
 (function (win, doc) {
 	
+	// ie8 add  getElementsByClassName
+	function _MS_HTML5_getElementsByClassName(classList) { 
+	    var tokens = classList.split(" "); 
+	    var staticNodeList = this.querySelectorAll("." + tokens[0]); 
+	    for (var i= 1; i<tokens.length; i++) { 
+	     	var tempList = this.querySelectorAll("." + tokens[i]);   
+	     	var resultList = []; 
+	     	for (var finalIter = 0; finalIter<staticNodeList.length; finalIter++) { 
+	      		var found= false; 
+	      		for (var tempIter = 0; tempIter<tempList.length; tempIter++) { 
+	      			if (staticNodeList[finalIter] == tempList[tempIter]) { 
+	        			found= true; 
+	        			break;      
+	       			} 
+	      		} 
+	      		if (found) { 
+	       			resultList.push(staticNodeList[finalIter]); 
+	     		} 
+	     	} 
+	     		staticNodeList= resultList; 
+	    } 
+	    	return staticNodeList; 
+	} 
+
+if (!document.getElementsByClassName && Element.prototype) { 
+    HTMLDocument.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
+    Element.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
+} 
+
 	function TabSwitch(options){
 		var self = this;
 		self.opts = self.getConfig(options);
 		
 		// 获取相应的dom节点
-		self.tab_title = doc.getElementsByClassName('tab-title')[0],
+		self.tab_title = doc.getElementsByClassName('tab-title')[0];
+		
+				
 		self.tab_list = self.tab_title.getElementsByClassName('item');
 		self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
 		self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
@@ -23,7 +54,7 @@
 				setIndex(this.tab_list);
 				EventUtil.addHandler(this.tab_title, 'click', function (event) {
 					var event = window.event || event,
-						target = event.target || e.srcElement;
+						target = event.target || event.srcElement;
 						if (target.nodeName === 'A') {
 							self.changeTab(target.index);
 						}
@@ -51,9 +82,8 @@
 			return defaultConfig;
 		},
 		setData: function () {
-			var tab = getComputedStyle(this.tab_cont[0]),
-				tab_w = parseInt(tab.width),
-				tab_h = parseInt(tab.height),
+			var	tab_w = parseInt(css(this.tab_cont[0], 'width')),
+				tab_h = parseInt(css(this.tab_cont[0], 'height')),
 				tab_len = this.tab_cont.length;
 
 				this.index = this.opts.curIndex;
@@ -97,7 +127,7 @@
 			}
 		},
 		changeTab: function (index) {
-			
+			var self = this;
 			removeClass(this.tab_list, 'item-cur');
 			addClass(this.tab_list[index], 'item-cur');
 			
@@ -111,8 +141,13 @@
 					animate(this.tabCont_wrap, {top: -index * h + 'px'}, 300);
 					break;
 				case 'opacity':
-				
+				// 先执行淡出后执行淡入
+					fideOut(this.tab_cont);
+					timer =	setTimeout(function () {
+						fideIn(self.tab_cont[index]);
+					},100);
 					
+					break;
 				case 'default':
 				default :
 					css(this.tab_cont, {display: 'none'});
@@ -153,12 +188,12 @@
 		if (len > 1) {
 			for (; i < len; i++) {
 				elem[i].className = elem[i].className.replace(
-									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), " "
+									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), ""
 							);
 			}
 		} else {
 			elem.className =  elem.className.replace(
-									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), " "
+									new RegExp("(\\s|^)" + cName + "(\\s|$)" ), ""
 							);
 		}
 	}
@@ -174,6 +209,8 @@
 				for (; i < len; i++) {
 					elems[i].index = i;
 				}
+			} else {
+				elems.index = 0;
 			}
 		
 	}
@@ -247,9 +284,10 @@ function animate(elem, target, duration, callback) {
     }
 	
 	timer = setInterval(function () {
-		time += 20;
+		time += 10;
 		if (time >= duration) {
 			clearInterval(timer);
+			timer = null;
 			css(elem, target);
 			
 			typeof callback === 'function' ? callback() : null;
@@ -264,6 +302,89 @@ function animate(elem, target, duration, callback) {
 }
 function isObject(obj) {
 	return Object.prototype.toString.call(obj) === '[object Object]';
+}
+
+function setOpacity(elem,num) {
+	
+	elem.style.opacity !== undefined ? elem.style.opacity = num / 100 
+						: elem.style.filter = 'alpha(opacity=' + num + ')';
+}
+
+/**
+ * findeIn 实现淡入效果
+ * @param {Object} elem
+ * @param {Number} speed  变化的速度,默认2
+ * @param {Number} opacity  要到达的透明度,默认100
+ */
+function fideIn(elem, speed, opacity) {
+	var flagFide = true;
+	var speed = speed || 40,
+		opacity = opacity || 100,
+		step = 0,
+		i,
+		timer = null;
+		len = elem.length || 0;
+	if (len > 1) {
+		len = elem.length;
+		for (; i < len; i ++) {
+			fideIn(elem[i], speed, opacity);
+		}
+	} else {
+			elem.timer = null;
+			if (flagFide) {
+					elem.timer = setInterval(function () {
+					step += speed;
+					flagFide = false;
+					setOpacity(elem, step);
+					if (step >= opacity ) {
+						setOpacity(elem, opacity);
+						clearInterval(elem.timer);
+						elem.timer = null;
+						css(elem,{display: 'block'});
+						flagFide = true;
+					}	
+				}, 10);
+			}
+		
+	}
+}
+/**
+ * fideOut 实现淡出效果
+ * @param {Object} elem
+ * @param {Number} speed  变化的速度,默认2
+ * @param {Number} opacity  要到达的透明度,默认0
+ */
+function fideOut(elem, speed,opacity) {
+	var flagFide = true;
+	var speed = speed || 40,
+		opacity = opacity || 0,
+		step = 100,
+		tiemr = null,
+		i = 0;
+		len = elem.length || 0;
+		if (len > 1) {
+			var len = elem.length;
+			for (; i < len; i++) {
+				fideOut(elem[i], speed, opacity);
+			}
+		} else {
+			elem.timer = null;
+			if (flagFide) {
+				elem.timer = setInterval(function () {
+					step -= speed;
+					flagFide = false;
+					setOpacity(elem, step);
+					if (step <= opacity) {
+						setOpacity(elem, opacity);
+						clearInterval(elem.timer);
+						elem.timer = null;
+						css(elem,{display: 'none'});
+						flagFide = true;
+					}
+				}, 10);
+			}
+			
+		}
 }
 })(window, document)
 
