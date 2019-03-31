@@ -17,12 +17,13 @@ var tab = require('../assets/js/tab.js');
 			     
 			    }); 
 		}); 
-  
+		
     it('tab hasOwnProperty', function() {	
     	const tabA =  tab();
     	const tabB = tab({})
     	expect(tabA).to.have.property('opts');
     	expect(tabA).to.have.property('index');
+    	expect(tabA.opts).to.have.property('tabList');
     	expect(tabA.opts).to.have.property('curIndex');
     	expect(tabA.opts).to.have.property('mouse');
     	expect(tabA.opts).to.have.property('changeMethod');
@@ -32,4 +33,19 @@ var tab = require('../assets/js/tab.js');
     });
   });
 
-	
+	describe('defaultConfig', function () {
+		it('modify config', function () {
+			const tabA = tab({
+					tabList: 3,
+					curIndex: 2,
+					mouse: 'hover',
+					changeMethod: 'horizontal',
+					autoPlay: true
+			});
+			expect(tabA.opts.tabList).to.equal(3);
+			expect(tabA.opts.curIndex).to.equal(2);
+			expect(tabA.opts.mouse).to.equal('hover');
+			expect(tabA.opts.changeMethod).to.equal('horizontal');
+			expect(tabA.opts.autoPlay).to.equal(true);
+		});
+	});
