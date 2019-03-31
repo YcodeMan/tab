@@ -38,27 +38,26 @@ if (!document.getElementsByClassName && Element.prototype) {
 		var self = this;
 		self.opts = self.getConfig(options);
 		
-		// 获取相应的dom节点
-			
+		// 设置变量存储dom节点
+		self.tab_list = [];	 // 储存节点集合
 		
-		// self.tab_title = doc.getElementsByClassName('tab-title')[0];
+		self.tab_cont = [];	 // 储存节点集合
+		this.tab_title = null;
+		self.tabCont_wrap = null;
 		
-		
-	//	self.tab_list = self.tab_title.getElementsByClassName('item');
-	//	self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
-	//	self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
 	
 		self.index = 0;
 	}
 	TabSwitch.prototype = {
 		inital: function () {
 			var self = this;
-		//	self.setData();
-		//	self.tabInital();		
 			
-		//	self._on(self.opts.mouse);
+			self.setTab(self.opts.tabList);	
+			self.setData();
+			self.tabInital();	
+			self._on(self.opts.mouse);
 			
-			return this;
+				return this;
 		},
 		/**
 		 * getConfig 设置配置信息
@@ -66,6 +65,7 @@ if (!document.getElementsByClassName && Element.prototype) {
 		 */
 		getConfig: function (config) {
 			var defaultConfig = {
+				tabList: 5,
 				curIndex: 1,
 				mouse: 'click',
 				changeMethod: 'default',
@@ -80,6 +80,7 @@ if (!document.getElementsByClassName && Element.prototype) {
 			return defaultConfig;
 		},
 		setData: function () {
+			
 			var	tab_w = parseInt(css(this.tab_cont[0], 'width')),
 				tab_h = parseInt(css(this.tab_cont[0], 'height')),
 				tab_len = this.tab_cont.length;
@@ -176,8 +177,42 @@ if (!document.getElementsByClassName && Element.prototype) {
 				});
 			}
 		},
-		setTab: function () {
-		
+		setTab: function (num) {
+			var i = 0,
+				cache = doc.createDocumentFragment(),
+				tab	= doc.createElement('div'),
+				tabTitle = doc.createElement('div'),
+				tab_cont = doc.createElement('div'),
+				tabCont_wrap = doc.createElement('ul');
+
+			addClass(tab, 'tab');
+			addClass(tabTitle, 'tab-title');
+			addClass(tab_cont, 'tab-cont');
+			addClass(tabCont_wrap, 'tab-cont_wrap');
+			tab.appendChild(tabTitle);
+			tab.appendChild(tab_cont);
+			tab_cont.appendChild(tabCont_wrap);
+			for (; i < num; i++) {
+				var tabItem = doc.createElement('a'),
+					tabContent = doc.createElement('li');
+				addClass(tabItem, 'item')
+				if (i == 0) {
+					addClass(tabItem, 'item-cur');
+					
+				}
+				
+				addClass(tabContent, 'item');
+				tabTitle.appendChild(tabItem);
+				tabCont_wrap.appendChild(tabContent);
+				
+				// 存储节点集合
+				this.tab_list.push(tabItem);
+				this.tab_cont.push(tabContent);
+			}
+			this.tab_title = tabTitle
+			this.tabCont_wrap = tabCont_wrap;
+			cache.appendChild(tab);
+			doc.body.appendChild(cache);
 		}
 	}
 	
@@ -254,12 +289,10 @@ if (!document.getElementsByClassName && Element.prototype) {
  * @param {String} 属性值
  */
 function css(elems, attr, value) {
-	var i = 0,
-		item ,
-		len = elems.length;
-		
+	var item ,	
+		len = elems.length || 0;
 	if (len > 1) {
-		for (; i < len; i++) {
+		for (var i = 0; i < len; i++) {
 			css(elems[i], attr);
 		}
 		
@@ -342,12 +375,11 @@ function fideIn(elem, speed, opacity) {
 	var speed = speed || 40,
 		opacity = opacity || 100,
 		step = 0,
-		i,
 		timer = null;
 		len = elem.length || 0;
 	if (len > 1) {
 		len = elem.length;
-		for (; i < len; i ++) {
+		for (var i = 0; i < len; i ++) {
 			fideIn(elem[i], speed, opacity);
 		}
 	} else {
@@ -381,11 +413,10 @@ function fideOut(elem, speed,opacity) {
 		opacity = opacity || 0,
 		step = 100,
 		tiemr = null,
-		i = 0;
 		len = elem.length || 0;
 		if (len > 1) {
 			var len = elem.length;
-			for (; i < len; i++) {
+			for (var i = 0; i < len; i++) {
 				fideOut(elem[i], speed, opacity);
 			}
 		} else {
