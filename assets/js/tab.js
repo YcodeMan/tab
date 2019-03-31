@@ -1,13 +1,14 @@
 
 (function (win, doc) {
 	
+	
 	// ie8 add  getElementsByClassName
 	function _MS_HTML5_getElementsByClassName(classList) { 
 	    var tokens = classList.split(" "); 
-	    var staticNodeList = this.querySelectorAll("." + tokens[0]); 
+	   	var staticNodeList = this.querySelectorAll("." + tokens[0]); 
 	    for (var i= 1; i<tokens.length; i++) { 
 	     	var tempList = this.querySelectorAll("." + tokens[i]);   
-	     	var resultList = []; 
+	     	var resultList = new Array(); 
 	     	for (var finalIter = 0; finalIter<staticNodeList.length; finalIter++) { 
 	      		var found= false; 
 	      		for (var tempIter = 0; tempIter<tempList.length; tempIter++) { 
@@ -23,35 +24,41 @@
 	     		staticNodeList= resultList; 
 	    } 
 	    	return staticNodeList; 
-	} 
+	}
+	
 
 if (!document.getElementsByClassName && Element.prototype) { 
     HTMLDocument.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
     Element.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
 } 
 
+
+
 	function TabSwitch(options){
 		var self = this;
 		self.opts = self.getConfig(options);
 		
 		// 获取相应的dom节点
-		self.tab_title = doc.getElementsByClassName('tab-title')[0];
+			
 		
-				
-		self.tab_list = self.tab_title.getElementsByClassName('item');
-		self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
-		self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
+		// self.tab_title = doc.getElementsByClassName('tab-title')[0];
+		
+		
+	//	self.tab_list = self.tab_title.getElementsByClassName('item');
+	//	self.tabCont_wrap = doc.getElementsByClassName('tab-cont_wrap')[0];
+	//	self.tab_cont = self.tabCont_wrap.getElementsByClassName('item');
 	
 		self.index = 0;
 	}
 	TabSwitch.prototype = {
 		inital: function () {
 			var self = this;
-			self.setData();
-			self.tabInital();		
+		//	self.setData();
+		//	self.tabInital();		
 			
-			self._on(self.opts.mouse);
+		//	self._on(self.opts.mouse);
 			
+			return this;
 		},
 		/**
 		 * getConfig 设置配置信息
@@ -164,17 +171,16 @@ if (!document.getElementsByClassName && Element.prototype) {
 					var event = win.event || event;
 					target = event.target || event.srcElement;
 					if (target.nodeName === 'A') {
-						console.log(this);
 						self.changeTab(target.index);
 					}
 				});
 			}
+		},
+		setTab: function () {
+		
 		}
 	}
-	window.tab = function (options) {
-		options = options || {};
-		new TabSwitch(options).inital();
-	};
+	
 	/**
 	 * addClass 添加class
 	 * @param {Object} elem
@@ -400,6 +406,13 @@ function fideOut(elem, speed,opacity) {
 			}
 		}
 }
-})(window, document)
+
+  win.tab = function (options) {
+		options = options || {};
+		return new TabSwitch(options).inital();
+	};
+
+module.exports = win.tab;
+})(window, document);
 
 

@@ -4,7 +4,7 @@
   "description": "This toggle tab",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/tab.test.js"
   },
   "repository": {
     "type": "git",
