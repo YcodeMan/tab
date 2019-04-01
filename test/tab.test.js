@@ -28,6 +28,10 @@ var tab = require('../assets/js/tab.js');
     	expect(tabA.opts).to.have.property('mouse');
     	expect(tabA.opts).to.have.property('changeMethod');
     	expect(tabA.opts).to.have.property('autoPlay');
+    	expect(tabA).to.have.property('tab_list');
+    	expect(tabA).to.have.property('tab_cont');
+    	expect(tabA).to.have.property('tab_title');
+    	expect(tabA).to.have.property('tabCont_wrap');
     	expect(tabB).to.have.property('opts');
     	
     });

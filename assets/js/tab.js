@@ -183,8 +183,9 @@ if (!document.getElementsByClassName && Element.prototype) {
 				tab	= doc.createElement('div'),
 				tabTitle = doc.createElement('div'),
 				tab_cont = doc.createElement('div'),
-				tabCont_wrap = doc.createElement('ul');
-
+				tabCont_wrap = doc.createElement('ul'),
+				tabItem = null;
+				
 			addClass(tab, 'tab');
 			addClass(tabTitle, 'tab-title');
 			addClass(tab_cont, 'tab-cont');
@@ -193,7 +194,7 @@ if (!document.getElementsByClassName && Element.prototype) {
 			tab.appendChild(tab_cont);
 			tab_cont.appendChild(tabCont_wrap);
 			for (; i < num; i++) {
-				var tabItem = doc.createElement('a'),
+					tabItem = doc.createElement('a'),
 					tabContent = doc.createElement('li');
 				addClass(tabItem, 'item')
 				if (i == 0) {
