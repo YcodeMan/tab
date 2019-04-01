@@ -79,10 +79,6 @@ var tab = require('../assets/js/tab.js');
 			const tabA = tab({
 				changeMethod: 'horizontal'
 			});
-			expect(tabA).to.respondTo('setData');
-			expect(tabA).to.respondTo('tabInital');
-			expect(tabA).to.respondTo('changeTab');
-			expect(tabA).to.respondTo('_on');
-			expect(tabA).to.respondTo('setTab');
+			expect(tabA.changeTab(4)).to.deep.equal(tabA);
 		})
 	})

@@ -120,6 +120,7 @@
 					css(this.tab_cont[index], {display: 'block'});
 					break;
 			}
+			return this;
 		},
 		_on: function (type) {
 			var self = this;
