@@ -54,6 +54,12 @@ var tab = require('../assets/js/tab.js');
 					changeMethod: 'vertical',
 					autoPlay: false
 			});
+			const tabC = tab({
+				changeMethod: 'opacity'
+			});
+			const tabD = tab({
+				changeMethod: 'default'
+			})
 			expect(tabA.opts.tabList).to.equal(3);
 			expect(tabA.opts.curIndex).to.equal(2);
 			expect(tabA.opts.mouse).to.equal('hover');
@@ -64,5 +70,7 @@ var tab = require('../assets/js/tab.js');
 			expect(tabB.opts.mouse).to.equal('click');
 			expect(tabB.opts.changeMethod).to.equal('vertical');
 			expect(tabB.opts.autoPlay).to.equal(false);
+			expect(tabC.opts.changeMethod).to.equal('opacity');
+			expect(tabD.opts.changeMethod).to.equal('default');
 		});
 	});
