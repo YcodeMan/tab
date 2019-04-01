@@ -32,6 +32,7 @@ var tab = require('../assets/js/tab.js');
     	expect(tabA).to.have.property('tab_cont');
     	expect(tabA).to.have.property('tab_title');
     	expect(tabA).to.have.property('tabCont_wrap');
+    	expect(tabA).to.have.property('index');
     	expect(tabB).to.have.property('opts');
     	
     });
