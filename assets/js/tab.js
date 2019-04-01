@@ -1,38 +1,5 @@
 
 (function (win, doc) {
-	
-	
-	// ie8 add  getElementsByClassName
-	function _MS_HTML5_getElementsByClassName(classList) { 
-	    var tokens = classList.split(" "); 
-	   	var staticNodeList = this.querySelectorAll("." + tokens[0]); 
-	    for (var i= 1; i<tokens.length; i++) { 
-	     	var tempList = this.querySelectorAll("." + tokens[i]);   
-	     	var resultList = new Array(); 
-	     	for (var finalIter = 0; finalIter<staticNodeList.length; finalIter++) { 
-	      		var found= false; 
-	      		for (var tempIter = 0; tempIter<tempList.length; tempIter++) { 
-	      			if (staticNodeList[finalIter] == tempList[tempIter]) { 
-	        			found= true; 
-	        			break;      
-	       			} 
-	      		} 
-	      		if (found) { 
-	       			resultList.push(staticNodeList[finalIter]); 
-	     		} 
-	     	} 
-	     		staticNodeList= resultList; 
-	    } 
-	    	return staticNodeList; 
-	}
-	
-
-if (!document.getElementsByClassName && Element.prototype) { 
-    HTMLDocument.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
-    Element.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
-} 
-
-
 
 	function TabSwitch(options){
 		var self = this;
@@ -175,6 +142,16 @@ if (!document.getElementsByClassName && Element.prototype) {
 						self.changeTab(target.index);
 					}
 				});
+					return this;
+			} else {
+				EventUtil.addHandler(this.tab_title, 'click', function (event) {
+					var event = win.event || event,
+						target = event.target || event.srcElement;
+						if (target.nodeName === 'A') {
+							self.changeTab(target.index);
+						}
+				});
+					return this;
 			}
 		},
 		setTab: function (num) {

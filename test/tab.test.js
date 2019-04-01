@@ -74,3 +74,15 @@ var tab = require('../assets/js/tab.js');
 			expect(tabD.opts.changeMethod).to.equal('default');
 		});
 	});
+	describe('Is tabChange', function () {
+		it('test tabChange', function () {
+			const tabA = tab({
+				changeMethod: 'horizontal'
+			});
+			expect(tabA).to.respondTo('setData');
+			expect(tabA).to.respondTo('tabInital');
+			expect(tabA).to.respondTo('changeTab');
+			expect(tabA).to.respondTo('_on');
+			expect(tabA).to.respondTo('setTab');
+		})
+	})
