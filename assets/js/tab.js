@@ -192,6 +192,38 @@
 			this.tabCont_wrap = tabCont_wrap;
 			cache.appendChild(tab);
 			doc.body.appendChild(cache);
+		},
+		/**
+		 * 设置tab的内容
+		 * @param {Array} opts  
+		 */
+		setTabCont: function (opts) {
+			var len = this.tab_list.length,
+			defaultTabContent = [
+				'Tab1',
+				'Tab2',
+				'Tab3',
+				'Tab4',
+				'Tab5',
+				'Tab6'
+			],
+			arrLen = defaultTabContent.length;
+			for (var item in opts) {
+					defaultTabContent[item] = opts[item];
+			}
+			if (arrLen  >= len ) {
+				for (var i = 0; i < len; i++ ) {
+					this.tab_list[i].innerHTML = defaultTabContent[i];
+				}
+			} else {
+				for (; arrLen < len;) {
+					defaultTabContent.push('Tab' + ++arrLen);
+				}
+				for (var j = 0; j < len; j++) {
+					this.tab_list[j].innerHTML = defaultTabContent[j];
+				}
+			}
+				return this;
 		}
 	}
 	
