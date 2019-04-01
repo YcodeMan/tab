@@ -47,10 +47,22 @@ var tab = require('../assets/js/tab.js');
 					changeMethod: 'horizontal',
 					autoPlay: true
 			});
+			const tabB = tab({
+					tabList: 4,
+					curIndex: 4,
+					mouse: 'click',
+					changeMethod: 'vertical',
+					autoPlay: false
+			});
 			expect(tabA.opts.tabList).to.equal(3);
 			expect(tabA.opts.curIndex).to.equal(2);
 			expect(tabA.opts.mouse).to.equal('hover');
 			expect(tabA.opts.changeMethod).to.equal('horizontal');
 			expect(tabA.opts.autoPlay).to.equal(true);
+			expect(tabB.opts.tabList).to.equal(4);
+			expect(tabB.opts.curIndex).to.equal(4);
+			expect(tabB.opts.mouse).to.equal('click');
+			expect(tabB.opts.changeMethod).to.equal('vertical');
+			expect(tabB.opts.autoPlay).to.equal(false);
 		});
 	});
