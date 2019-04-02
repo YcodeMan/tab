@@ -80,5 +80,6 @@ var tab = require('../assets/js/tab.js');
 				changeMethod: 'horizontal'
 			});
 			expect(tabA.changeTab(4)).to.deep.equal(tabA);
+			expect(tabA.setTabCont(['首页'])).to.deep.equal(tabA);
 		})
 	})
