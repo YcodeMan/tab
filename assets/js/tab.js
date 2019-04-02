@@ -111,6 +111,7 @@
 					fideOut(this.tab_cont);
 					timer =	setTimeout(function () {
 						fideIn(self.tab_cont[index]);
+						clearTimeout(timer);
 					},100);
 					
 					break;
@@ -198,7 +199,7 @@
 		 * @param {Array} opts  
 		 */
 		setTabCont: function (opts) {
-			var len = this.tab_list.length,
+			
 			defaultTabContent = [
 				'Tab1',
 				'Tab2',
@@ -207,24 +208,42 @@
 				'Tab5',
 				'Tab6'
 			],
-			arrLen = defaultTabContent.length;
+			this.setCont(this.tab_list, defaultTabContent, opts);
+				return this;
+		},
+		setTxtContent: function (opts) {
+			
+			defaultTxtContent = [
+				'Cont1',
+				'Cont2',
+				'Cont3',
+				'Cont4',
+				'Cont5',
+				'Cont6'
+			],
+			this.setCont(this.tab_cont, defaultTxtContent, opts );
+				return this;
+		},
+		 setCont: function (elems, Config, opts) {
+		 	var len = elems.length,
+			arrLen = Config.length;
 			for (var item in opts) {
-					defaultTabContent[item] = opts[item];
+					Config[item] = opts[item];
 			}
 			if (arrLen  >= len ) {
 				for (var i = 0; i < len; i++ ) {
-					this.tab_list[i].innerHTML = defaultTabContent[i];
+					elems[i].innerHTML = Config[i];
 				}
 			} else {
 				for (; arrLen < len;) {
-					defaultTabContent.push('Tab' + ++arrLen);
+					Config.push('Tab' + ++arrLen);
 				}
 				for (var j = 0; j < len; j++) {
-					this.tab_list[j].innerHTML = defaultTabContent[j];
+					elems[j].innerHTML = Config[j];
 				}
 			}
-				return this;
-		}
+				
+		 }
 	}
 	
 	/**
@@ -336,7 +355,7 @@ function linear(t, b, c, d) {
  * @param {Number} duration
  * @param {Function} callback
  */
-function animate(elem, target, duration, callback) {
+function animate(elem, target, duration) {
     var change = {},
     	begin = {},
     	key = null,
@@ -447,6 +466,7 @@ function fideOut(elem, speed,opacity) {
 				}, 10);
 			}
 		}
+		
 }
 
   win.tab = function (options) {
