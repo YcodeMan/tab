@@ -399,7 +399,7 @@ function animate(elem, target, duration) {
 			css(elem, item, current + 'px');
 		}
 		
-	}, 20);
+	}, 30);
 }
 function isObject(obj) {
 	return Object.prototype.toString.call(obj) === '[object Object]';
@@ -443,7 +443,7 @@ function fideIn(elem, speed, opacity) {
 						css(elem,{display: 'block'});
 						flagFide = true;
 					}	
-				}, 20);
+				}, 30);
 			}
 		
 	}
