@@ -66,3 +66,10 @@ var tab = require('../assets/js/tab.js');
 			expect(tabB.opts.autoPlay).to.equal(false);
 		});
 	});
+describe('Test function', function () {
+		it('test function', function () {
+			const tabA = tab();
+			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
+			
+		});
+	});

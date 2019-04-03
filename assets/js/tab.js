@@ -1,39 +1,6 @@
 
 (function (win, doc) {
 	
-	
-	// ie8 add  getElementsByClassName
-	function _MS_HTML5_getElementsByClassName(classList) { 
-	    var tokens = classList.split(" "); 
-	   	var staticNodeList = this.querySelectorAll("." + tokens[0]); 
-	    for (var i= 1; i<tokens.length; i++) { 
-	     	var tempList = this.querySelectorAll("." + tokens[i]);   
-	     	var resultList = new Array(); 
-	     	for (var finalIter = 0; finalIter<staticNodeList.length; finalIter++) { 
-	      		var found= false; 
-	      		for (var tempIter = 0; tempIter<tempList.length; tempIter++) { 
-	      			if (staticNodeList[finalIter] == tempList[tempIter]) { 
-	        			found= true; 
-	        			break;      
-	       			} 
-	      		} 
-	      		if (found) { 
-	       			resultList.push(staticNodeList[finalIter]); 
-	     		} 
-	     	} 
-	     		staticNodeList= resultList; 
-	    } 
-	    	return staticNodeList; 
-	}
-	
-
-if (!document.getElementsByClassName && Element.prototype) { 
-    HTMLDocument.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
-    Element.prototype.getElementsByClassName = _MS_HTML5_getElementsByClassName; 
-} 
-
-
-
 	function TabSwitch(options){
 		var self = this;
 		self.opts = self.getConfig(options);
@@ -52,7 +19,7 @@ if (!document.getElementsByClassName && Element.prototype) {
 		inital: function () {
 			var self = this;
 			
-			self.setTab(self.opts.tabList);	
+			self.setNodes(self.opts.tabList);	
 			self.setData();
 			self.tabInital();	
 			self._on(self.opts.mouse);
@@ -177,7 +144,10 @@ if (!document.getElementsByClassName && Element.prototype) {
 				});
 			}
 		},
-		setTab: function (num) {
+		setNodes: function (num) {
+			
+			this.tab_list = [];
+			this.tab_cont = [];
 			var i = 0,
 				cache = doc.createDocumentFragment(),
 				tab	= doc.createElement('div'),
@@ -214,6 +184,7 @@ if (!document.getElementsByClassName && Element.prototype) {
 			this.tabCont_wrap = tabCont_wrap;
 			cache.appendChild(tab);
 			doc.body.appendChild(cache);
+			return this;
 		}
 	}
 	
