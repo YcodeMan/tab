@@ -23,6 +23,11 @@
 			self.setData();
 			self.tabInital();	
 			self._on(self.opts.mouse);
+			self.setTabCont();
+			self.setTxtContent();
+			if (self.opts.autoPlay) {
+				this.autoPlay();
+			}
 			
 				return this;
 		},
@@ -243,7 +248,19 @@
 				}
 			}
 				
-		 }
+		},
+		autoPlay: function () {
+			
+			var	index = this.opts.curIndex - 1,
+				self = this,
+				len = this.tab_list.length;
+				setInterval(function () {
+					index =	index >= (len - 1) ? 0 : ++index;
+					self.changeTab(index);
+				}, 1000);
+			
+			
+		}
 	}
 	
 	/**
@@ -253,7 +270,7 @@
 	 */
 	function addClass(elem, cName) {
 		var i = 0,
-			len = elem.length;
+			len = elem.length || 0;
 		if (len > 1) {
 			for (; i < len; i++) {
 				elem[i].className += " " + cName; 
@@ -426,7 +443,7 @@ function fideIn(elem, speed, opacity) {
 						css(elem,{display: 'block'});
 						flagFide = true;
 					}	
-				}, 10);
+				}, 20);
 			}
 		
 	}
@@ -463,7 +480,7 @@ function fideOut(elem, speed,opacity) {
 						css(elem,{display: 'none'});
 						flagFide = true;
 					}
-				}, 10);
+				}, 20);
 			}
 		}
 		
