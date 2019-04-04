@@ -69,7 +69,9 @@ var tab = require('../assets/js/tab.js');
 describe('Test function', function () {
 		it('test function', function () {
 			const tabA = tab();
+			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
-			
+			expect(tabA.setTabContent()).to.equal(tabA);
+			expect(tabA.setTxtContent()).to.equal(tabA);
 		});
 	});

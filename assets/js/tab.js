@@ -23,7 +23,8 @@
 			self.setData();
 			self.tabInital();	
 			self._on(self.opts.mouse);
-			
+			self.setTabContent();
+			self.setTxtContent();
 				return this;
 		},
 		/**
@@ -120,6 +121,7 @@
 					css(this.tab_cont[index], {display: 'block'});
 					break;
 			}
+			return this;
 		},
 		_on: function (type) {
 			var self = this;
@@ -185,6 +187,57 @@
 			cache.appendChild(tab);
 			doc.body.appendChild(cache);
 			return this;
+		},
+		setTabContent: function (opts) {
+			
+			var	config = [
+					'Tab1',
+					'Tab2',
+					'Tab3',
+					'Tab4',
+					'Tab5',
+					'Tab6'
+				];
+			this.setCont(this.tab_list, config, opts);
+			return this;
+		},
+		setTxtContent: function (opts) {
+			var config = [
+					'Cont1',
+					'Cont2',
+					'Cont3',
+					'Cont4',
+					'Cont5',
+					'Cont6',
+				];
+			this.setCont(this.tab_cont, config, opts);
+			return this;
+		},
+		setCont: function (elems, config, opts) {
+			var elems = elems,
+				elemLen = elems.length;
+			
+			var arrLen = config.length;
+			if (opts) {
+				var optsLen = opts.length;
+				for (var i = 0; i < optsLen; i++) {
+					config[i] = opts[i];
+				}
+			}
+			
+			if (elemLen > 0) {
+				if (elemLen > arrLen) {
+					var diffLen = elemLen - arrLen; 
+					for (var j = 0; j < diffLen; j++) {
+						config.push('Tab' + (config.length + 1));
+					}
+				
+				}
+				for (var m = 0; m < elemLen; m++) {
+						elems[m].innerHTML = config[m];
+					}
+			}
+			
 		}
 	}
 	
