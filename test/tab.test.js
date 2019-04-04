@@ -70,6 +70,7 @@ describe('Test function', function () {
 		it('test function', function () {
 			const tabA = tab({
 				changeMethod: 'horizontal'
+				
 			});
 			const tabB = tab({
 				changeMethod: 'vertical'
@@ -79,7 +80,11 @@ describe('Test function', function () {
 			});
 			const tabD = tab({
 				changeMethod: 'opacity'
-			});
+			}).setTabContent([
+						'1',
+						'2',
+						'3'
+			]);
 			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
 			expect(tabA.setTabContent()).to.equal(tabA);
@@ -89,6 +94,7 @@ describe('Test function', function () {
 			expect(tabB.changeTab(4)).to.equal(tabB);
 			expect(tabC.changeTab(4)).to.equal(tabC);
 			expect(tabD.changeTab(4)).to.equal(tabD);
-			
+			expect(tabD.tab_list[0].innerHTML).to.equal('1');
+			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
 		});
 	});

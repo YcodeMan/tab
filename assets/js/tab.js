@@ -126,7 +126,8 @@
 		_on: function (type) {
 			var self = this;
 			setIndex(this.tab_list);
-			if (type === 'click') {
+			
+			if (type === 'click' || type !== 'hover' ) {
 				
 				EventUtil.addHandler(this.tab_title, 'click', function (event) {
 					var event = win.event || event,
@@ -143,6 +144,7 @@
 					if (target.nodeName === 'A') {
 						self.changeTab(target.index);
 					}
+					return this;
 				});
 			}
 		},
@@ -166,9 +168,10 @@
 			tab.appendChild(tab_cont);
 			tab_cont.appendChild(tabCont_wrap);
 			for (; i < num; i++) {
-					tabItem = doc.createElement('a'),
-					tabContent = doc.createElement('li');
-				addClass(tabItem, 'item')
+				tabItem = doc.createElement('a');
+				tabItem.href = 'javascript:';
+				tabContent = doc.createElement('li');
+				addClass(tabItem, 'item');
 				if (i == 0) {
 					addClass(tabItem, 'item-cur');
 					
@@ -384,7 +387,6 @@ function isObject(obj) {
 }
 
 function setOpacity(elem,num) {
-	
 	elem.style.opacity !== undefined ? elem.style.opacity = num / 100 
 						: elem.style.filter = 'alpha(opacity=' + num + ')';
 }
@@ -395,10 +397,13 @@ function setOpacity(elem,num) {
  * @param {Number} speed  变化的速度,默认2
  * @param {Number} opacity  要到达的透明度,默认100
  */
-function fideIn(elem, speed, opacity) {
-	var flagFide = true;
-	var speed = speed || 40,
-		opacity = opacity || 100,
+function fideIn(elem, speed, opacity, callback) {
+	var flagFide = true,
+		callback = typeof speed === 'function' ?
+					speed : typeof opacity === 'function' 
+					? opacity : callback;
+		speed = typeof  speed  === 'number' ? speed : 40,
+		opacity = typeof opacity === 'number' ? opacity : 100,
 		step = 0,
 		timer = null;
 		len = elem.length || 0;
@@ -420,8 +425,9 @@ function fideIn(elem, speed, opacity) {
 						elem.timer = null;
 						css(elem,{display: 'block'});
 						flagFide = true;
+						typeof callback != 'undefined' ? callback() : null;
 					}	
-				}, 10);
+				}, 20);
 			}
 		
 	}
@@ -433,9 +439,9 @@ function fideIn(elem, speed, opacity) {
  * @param {Number} opacity  要到达的透明度,默认0
  */
 function fideOut(elem, speed,opacity) {
-	var flagFide = true;
-	var speed = speed || 40,
-		opacity = opacity || 0,
+	var flagFide = true,
+		 speed = typeof speed === 'number' ? speed : 40,
+		opacity = typeof opacity === 'number' ? opacity : 0,
 		step = 100,
 		tiemr = null,
 		len = elem.length || 0;
@@ -457,8 +463,9 @@ function fideOut(elem, speed,opacity) {
 						elem.timer = null;
 						css(elem,{display: 'none'});
 						flagFide = true;
+					 typeof callback != 'undefined' ? callback() : null;
 					}
-				}, 10);
+				}, 20);
 			}
 		}
 }
