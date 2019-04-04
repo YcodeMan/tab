@@ -68,10 +68,27 @@ var tab = require('../assets/js/tab.js');
 	});
 describe('Test function', function () {
 		it('test function', function () {
-			const tabA = tab();
+			const tabA = tab({
+				changeMethod: 'horizontal'
+			});
+			const tabB = tab({
+				changeMethod: 'vertical'
+			});
+			const tabC = tab({
+				changeMethod: 'default'
+			});
+			const tabD = tab({
+				changeMethod: 'opacity'
+			});
 			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
 			expect(tabA.setTabContent()).to.equal(tabA);
 			expect(tabA.setTxtContent()).to.equal(tabA);
+			
+			expect(tabB.changeTab(4)).to.not.equal(tabA)
+			expect(tabB.changeTab(4)).to.equal(tabB);
+			expect(tabC.changeTab(4)).to.equal(tabC);
+			expect(tabD.changeTab(4)).to.equal(tabD);
+			
 		});
 	});
