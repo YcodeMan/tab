@@ -405,16 +405,16 @@ function fideIn(elem, speed, opacity, callback) {
 		speed = typeof  speed  === 'number' ? speed : 40,
 		opacity = typeof opacity === 'number' ? opacity : 100,
 		step = 0,
-		timer = null;
 		len = elem.length || 0;
+		elem.timer = null;
 	if (len > 1) {
 		len = elem.length;
 		for (var i = 0; i < len; i ++) {
 			fideIn(elem[i], speed, opacity);
 		}
 	} else {
-			elem.timer = null;
 			if (flagFide) {
+				clearInterval(elem.timer)
 					elem.timer = setInterval(function () {
 					step += speed;
 					flagFide = false;
@@ -438,21 +438,25 @@ function fideIn(elem, speed, opacity, callback) {
  * @param {Number} speed  变化的速度,默认2
  * @param {Number} opacity  要到达的透明度,默认0
  */
-function fideOut(elem, speed,opacity) {
+function fideOut(elem, speed,opacity, callback) {
 	var flagFide = true,
-		 speed = typeof speed === 'number' ? speed : 40,
+		callback = typeof speed === 'function' ? speed
+				: typeof opacity === 'function' 
+				? opacity : callback,
+		speed = typeof speed === 'number' ? speed : 40,
 		opacity = typeof opacity === 'number' ? opacity : 0,
 		step = 100,
-		tiemr = null,
 		len = elem.length || 0;
+		elem.timer = null;
 		if (len > 1) {
 			var len = elem.length;
 			for (var i = 0; i < len; i++) {
 				fideOut(elem[i], speed, opacity);
 			}
 		} else {
-			elem.timer = null;
+			
 			if (flagFide) {
+				clearInterval(elem.timer);
 				elem.timer = setInterval(function () {
 					step -= speed;
 					flagFide = false;
