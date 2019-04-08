@@ -397,24 +397,21 @@ function setOpacity(elem,num) {
  * @param {Number} speed  变化的速度,默认2
  * @param {Number} opacity  要到达的透明度,默认100
  */
-function fideIn(elem, speed, opacity, callback) {
+function fideIn(elem, speed, opacity) {
 	var flagFide = true,
-		callback = typeof speed === 'function' ?
-					speed : typeof opacity === 'function' 
-					? opacity : callback;
 		speed = typeof  speed  === 'number' ? speed : 40,
 		opacity = typeof opacity === 'number' ? opacity : 100,
 		step = 0,
-		timer = null;
 		len = elem.length || 0;
+		elem.timer = null;
 	if (len > 1) {
 		len = elem.length;
 		for (var i = 0; i < len; i ++) {
 			fideIn(elem[i], speed, opacity);
 		}
 	} else {
-			elem.timer = null;
 			if (flagFide) {
+				clearInterval(elem.timer)
 					elem.timer = setInterval(function () {
 					step += speed;
 					flagFide = false;
@@ -425,7 +422,6 @@ function fideIn(elem, speed, opacity, callback) {
 						elem.timer = null;
 						css(elem,{display: 'block'});
 						flagFide = true;
-						typeof callback != 'undefined' ? callback() : null;
 					}	
 				}, 20);
 			}
@@ -440,19 +436,20 @@ function fideIn(elem, speed, opacity, callback) {
  */
 function fideOut(elem, speed,opacity) {
 	var flagFide = true,
-		 speed = typeof speed === 'number' ? speed : 40,
+		speed = typeof speed === 'number' ? speed : 40,
 		opacity = typeof opacity === 'number' ? opacity : 0,
 		step = 100,
-		tiemr = null,
 		len = elem.length || 0;
+		elem.timer = null;
 		if (len > 1) {
 			var len = elem.length;
 			for (var i = 0; i < len; i++) {
 				fideOut(elem[i], speed, opacity);
 			}
 		} else {
-			elem.timer = null;
+			
 			if (flagFide) {
+				clearInterval(elem.timer);
 				elem.timer = setInterval(function () {
 					step -= speed;
 					flagFide = false;
@@ -463,7 +460,6 @@ function fideOut(elem, speed,opacity) {
 						elem.timer = null;
 						css(elem,{display: 'none'});
 						flagFide = true;
-					 typeof callback != 'undefined' ? callback() : null;
 					}
 				}, 20);
 			}
