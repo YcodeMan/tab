@@ -11,7 +11,7 @@
 		self.tab_cont = [];	 // 储存节点集合
 		this.tab_title = null;
 		self.tabCont_wrap = null;
-		
+		self.PlayTimer = null;
 	
 		self.index = 0;
 	}
@@ -25,6 +25,10 @@
 			self._on(self.opts.mouse);
 			self.setTabContent();
 			self.setTxtContent();
+			
+			if (self.opts.autoPlay) {
+				this.autoPlay(self.opts.curIndex);
+			}
 				return this;
 		},
 		/**
@@ -129,24 +133,18 @@
 			
 			if (type === 'click' || type !== 'hover' ) {
 				
-				EventUtil.addHandler(this.tab_title, 'click', function (event) {
+				EventUtil.addHandler(this.tab_title, 'click', handler);
+					return this;
+			} else if (type === 'hover') {
+				EventUtil.addHandler(this.tab_title, 'mouseover', handler);
+			}
+			function handler(event) {
 					var event = win.event || event,
 						target = event.target || event.srcElement;
 						if (target.nodeName === 'A') {
 							self.changeTab(target.index);
 						}
-				});
-					return this;
-			} else if (type === 'hover') {
-				EventUtil.addHandler(this.tab_title, 'mouseover', function (event) {
-					var event = win.event || event;
-					target = event.target || event.srcElement;
-					if (target.nodeName === 'A') {
-						self.changeTab(target.index);
-					}
-					return this;
-				});
-			}
+				}
 		},
 		setNodes: function (num) {
 			
@@ -241,6 +239,15 @@
 					}
 			}
 			
+		},
+		autoPlay: function (index) {
+			var self = this,
+				index,
+				len = this.tab_cont.length;
+			this.PlayTimer = setInterval(function () {
+				index = index == (len - 1) ? 0 : ++index;
+				self.changeTab(index);
+			},1000);
 		}
 	}
 	
@@ -302,6 +309,7 @@
 	 	addHandler: function (elem, type, handler) {
 	 		if (elem.addEventListener) {
 	 			elem.addEventListener(type, handler, false);
+	 			console.log(console.dir(elem));
 	 		} else if (elem.attachEvent) {
 	 			elem.attachEvent('on' + type, handler);
 	 		} else {

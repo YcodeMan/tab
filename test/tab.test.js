@@ -98,3 +98,11 @@ describe('Test function', function () {
 			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
 		});
 	});
+describe('Test Event handler ', function () {
+		it('test event  function', function () {
+			const tabA = tab({
+				mouse: 'hover'
+			})
+			
+		});
+	});
