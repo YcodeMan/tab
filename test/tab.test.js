@@ -79,6 +79,7 @@ describe('Test function', function () {
 				changeMethod: 'default'
 			});
 			const tabD = tab({
+				tabList: 7,
 				changeMethod: 'opacity'
 			}).setTabContent([
 						'1',
@@ -88,6 +89,7 @@ describe('Test function', function () {
 						'cont1',
 						'cont2',	
 						'cont3',	
+						
 			]);
 			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
@@ -100,8 +102,10 @@ describe('Test function', function () {
 			expect(tabD.changeTab(4)).to.equal(tabD);
 			expect(tabD.tab_list[0].innerHTML).to.equal('1');
 			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
+			expect(tabD.tab_list[6].innerHTML).to.equal('Tab7');
 			expect(tabD.tab_cont[0].innerHTML).to.equal('cont1');
 			expect(tabD.tab_cont[1].innerHTML).to.equal('cont2');
 			expect(tabD.tab_cont[2].innerHTML).to.equal('cont3');
+			expect(tabD.tab_cont[6].innerHTML).to.equal('Cont7');
 		});
 	});

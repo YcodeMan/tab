@@ -173,7 +173,6 @@
 				addClass(tabItem, 'item');
 				if (i == 0) {
 					addClass(tabItem, 'item-cur');
-					
 				}
 				
 				addClass(tabContent, 'item');
@@ -230,9 +229,10 @@
 				if (elemLen > arrLen) {
 					var diffLen = elemLen - arrLen; 
 					for (var j = 0; j < diffLen; j++) {
-						config.push('Tab' + (config.length + 1));
+						elems == this.tab_cont 
+						? config.push('Cont' + (config.length + 1))
+						: config.push('Tab' + (config.length + 1));
 					}
-				
 				}
 				for (var m = 0; m < elemLen; m++) {
 						elems[m].innerHTML = config[m];
