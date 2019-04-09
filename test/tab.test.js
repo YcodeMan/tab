@@ -84,6 +84,10 @@ describe('Test function', function () {
 						'1',
 						'2',
 						'3'
+			]).setTxtContent([
+						'cont1',
+						'cont2',	
+						'cont3',	
 			]);
 			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
@@ -96,5 +100,8 @@ describe('Test function', function () {
 			expect(tabD.changeTab(4)).to.equal(tabD);
 			expect(tabD.tab_list[0].innerHTML).to.equal('1');
 			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
+			expect(tabD.tab_cont[0].innerHTML).to.equal('cont1');
+			expect(tabD.tab_cont[1].innerHTML).to.equal('cont2');
+			expect(tabD.tab_cont[2].innerHTML).to.equal('cont3');
 		});
 	});
