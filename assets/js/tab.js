@@ -112,7 +112,7 @@
 					fideOut(this.tab_cont);
 					timer =	setTimeout(function () {
 						fideIn(self.tab_cont[index]);
-					},100);
+					},200);
 					
 					break;
 				case 'default':
@@ -126,7 +126,6 @@
 		_on: function (type) {
 			var self = this;
 			setIndex(this.tab_list);
-			
 			if (type === 'click' || type !== 'hover' ) {
 				
 				EventUtil.addHandler(this.tab_title, 'click', function (event) {
@@ -174,7 +173,6 @@
 				addClass(tabItem, 'item');
 				if (i == 0) {
 					addClass(tabItem, 'item-cur');
-					
 				}
 				
 				addClass(tabContent, 'item');
@@ -191,8 +189,7 @@
 			doc.body.appendChild(cache);
 			return this;
 		},
-		setTabContent: function (opts) {
-			
+		setTabContent: function (opts) {			
 			var	config = [
 					'Tab1',
 					'Tab2',
@@ -232,9 +229,10 @@
 				if (elemLen > arrLen) {
 					var diffLen = elemLen - arrLen; 
 					for (var j = 0; j < diffLen; j++) {
-						config.push('Tab' + (config.length + 1));
+						elems == this.tab_cont 
+						? config.push('Cont' + (config.length + 1))
+						: config.push('Tab' + (config.length + 1));
 					}
-				
 				}
 				for (var m = 0; m < elemLen; m++) {
 						elems[m].innerHTML = config[m];
@@ -399,7 +397,7 @@ function setOpacity(elem,num) {
  */
 function fideIn(elem, speed, opacity) {
 	var flagFide = true,
-		speed = typeof  speed  === 'number' ? speed : 40,
+		speed = typeof  speed  === 'number' ? speed : 30,
 		opacity = typeof opacity === 'number' ? opacity : 100,
 		step = 0,
 		len = elem.length || 0;
@@ -410,22 +408,27 @@ function fideIn(elem, speed, opacity) {
 			fideIn(elem[i], speed, opacity);
 		}
 	} else {
-			if (flagFide) {
-				clearInterval(elem.timer)
+				clearInterval(elem.timer);
+				
 					elem.timer = setInterval(function () {
-					step += speed;
-					flagFide = false;
-					setOpacity(elem, step);
-					if (step >= opacity ) {
-						setOpacity(elem, opacity);
-						clearInterval(elem.timer);
-						elem.timer = null;
-						css(elem,{display: 'block'});
-						flagFide = true;
-					}	
-				}, 20);
-			}
-		
+					if (flagFide) {
+						if (step != opacity) {	
+							step += speed;
+							setOpacity(elem, step);
+						}
+						
+						if (step >= opacity ) {
+							
+							setOpacity(elem, opacity);
+							clearInterval(elem.timer);
+							
+							// 先让所有元素不显示,后显示单前元素
+							css(elem.parentNode.children, {display: 'none'});
+							css(elem,{display: 'block'});
+							flagFide = false;
+						}
+					}
+				}, 30);
 	}
 }
 /**
@@ -436,7 +439,7 @@ function fideIn(elem, speed, opacity) {
  */
 function fideOut(elem, speed,opacity) {
 	var flagFide = true,
-		speed = typeof speed === 'number' ? speed : 40,
+		speed = typeof speed === 'number' ? speed : 30,
 		opacity = typeof opacity === 'number' ? opacity : 0,
 		step = 100,
 		len = elem.length || 0;
@@ -447,22 +450,21 @@ function fideOut(elem, speed,opacity) {
 				fideOut(elem[i], speed, opacity);
 			}
 		} else {
-			
-			if (flagFide) {
 				clearInterval(elem.timer);
 				elem.timer = setInterval(function () {
-					step -= speed;
-					flagFide = false;
-					setOpacity(elem, step);
-					if (step <= opacity) {
-						setOpacity(elem, opacity);
-						clearInterval(elem.timer);
-						elem.timer = null;
-						css(elem,{display: 'none'});
-						flagFide = true;
-					}
-				}, 20);
-			}
+					if (flagFide) {
+						if (step != opacity) {	
+							step -= speed;
+							setOpacity(elem, step);
+						}
+						if (step <= opacity) {
+							setOpacity(elem, opacity);
+							clearInterval(elem.timer);
+							css(elem,{display: 'none'});
+							flagFide = false;
+						}
+					}	
+				}, 30);
 		}
 }
 
