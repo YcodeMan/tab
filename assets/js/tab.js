@@ -2,18 +2,19 @@
 (function (win, doc) {
 	
 	function TabSwitch(options){
-		var self = this;
-		self.opts = self.getConfig(options);
+		
+		this.opts = this.getConfig(options);
 		
 		// 设置变量存储dom节点
-		self.tab_list = [];	 // 储存节点集合
-		
-		self.tab_cont = [];	 // 储存节点集合
+		this.tab = null;   // 存储最外层节点
+		this.tab_list = [];	 // 储存节点集合
+		this.tabParent = null; // 存储内容的最外节点
+		this.tab_cont = [];	 // 储存节点集合
 		this.tab_title = null;
-		self.tabCont_wrap = null;
+		this.tabCont_wrap = null;
 		
-	
-		self.index = 0;
+		
+		this.index = 0;
 	}
 	TabSwitch.prototype = {
 		inital: function () {
@@ -25,6 +26,7 @@
 			self._on(self.opts.mouse);
 			self.setTabContent();
 			self.setTxtContent();
+			self.setWidth();
 				return this;
 		},
 		/**
@@ -160,8 +162,10 @@
 				tabItem = null;
 				
 			addClass(tab, 'tab');
+			this.tab = tab;
 			addClass(tabTitle, 'tab-title');
 			addClass(tab_cont, 'tab-cont');
+			this.tabParent = tab_cont;
 			addClass(tabCont_wrap, 'tab-cont_wrap');
 			tab.appendChild(tabTitle);
 			tab.appendChild(tab_cont);
@@ -239,6 +243,13 @@
 					}
 			}
 			
+		},
+		setWidth: function () {
+			var w = parseInt(css(this.tab_list[0], 'width')) * (this.tab_list.length) + 'px';
+			css(this.tab,{width: w });
+			css(this.tabParent,{width: w });
+			css(this.tab_cont,{width: w });
+			return this;
 		}
 	}
 	
