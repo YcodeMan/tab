@@ -45,7 +45,6 @@
 				if (config.hasOwnProperty(i)) {
 					defaultConfig[i] = config[i]   // 用户配置信息
 				}
-				
 			}
 			return defaultConfig;
 		},
@@ -128,8 +127,8 @@
 		_on: function (type) {
 			var self = this;
 			setIndex(this.tab_list);
+			
 			if (type === 'click' || type !== 'hover' ) {
-				
 				EventUtil.addHandler(this.tab_title, 'click', function (event) {
 					var event = win.event || event,
 						target = event.target || event.srcElement;
@@ -137,15 +136,14 @@
 							self.changeTab(target.index);
 						}
 				});
-					return this;
+				
 			} else if (type === 'hover') {
 				EventUtil.addHandler(this.tab_title, 'mouseover', function (event) {
-					var event = win.event || event;
-					target = event.target || event.srcElement;
+					var event = win.event || event,
+						target = event.target || event.srcElement;
 					if (target.nodeName === 'A') {
 						self.changeTab(target.index);
 					}
-					return this;
 				});
 			}
 		},
