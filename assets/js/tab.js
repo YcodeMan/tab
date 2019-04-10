@@ -135,7 +135,7 @@
 						if (target.nodeName === 'A') {
 							self.changeTab(target.index);
 						}
-				});
+				}, true);
 				
 			} else if (type === 'hover') {
 				EventUtil.addHandler(this.tab_title, 'mouseover', function (event) {
@@ -144,7 +144,7 @@
 					if (target.nodeName === 'A') {
 						self.changeTab(target.index);
 					}
-				});
+				}, true);
 			}
 		},
 		setNodes: function (num) {
@@ -306,9 +306,10 @@
 		
 	}
 	 var EventUtil = {
-	 	addHandler: function (elem, type, handler) {
+	 	addHandler: function (elem, type, handler, useCapture) {
 	 		if (elem.addEventListener) {
-	 			elem.addEventListener(type, handler, false);
+	 			useCapture = typeof useCapture === 'boolean' ? useCapture : false;
+	 			elem.addEventListener(type, handler, useCapture);
 	 		} else if (elem.attachEvent) {
 	 			elem.attachEvent('on' + type, handler);
 	 		} else {
