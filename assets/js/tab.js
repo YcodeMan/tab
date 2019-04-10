@@ -135,7 +135,7 @@
 						if (target.nodeName === 'A') {
 							self.changeTab(target.index);
 						}
-				}, true);
+				});
 				
 			} else if (type === 'hover') {
 				EventUtil.addHandler(this.tab_title, 'mouseover', function (event) {
@@ -144,7 +144,7 @@
 					if (target.nodeName === 'A') {
 						self.changeTab(target.index);
 					}
-				}, true);
+				});
 			}
 		},
 		setNodes: function (num) {
