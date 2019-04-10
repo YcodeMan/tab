@@ -106,8 +106,24 @@ describe('Test function', function () {
 			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
 			expect(tabD.tab_list[6].innerHTML).to.equal('Tab7');
 			expect(tabD.tab_cont[0].innerHTML).to.equal('cont1');
-			expect(tabD.tab_cont[1].innerHTML).to.equal('cont2');
-			expect(tabD.tab_cont[2].innerHTML).to.equal('cont3');
 			expect(tabD.tab_cont[6].innerHTML).to.equal('Cont7');
+			
+		});
+	});
+
+describe('Test Event', function () {
+		it('Event is run ', function () {
+			const mouseoverEvent = new Event('mouseover');
+			const clickEvent = new Event('click');
+			const tabA = tab({
+				mouse: 'hover'
+			});
+			const tabB = tab({
+				mouse: 'click'
+			});
+				expect(tabA.tab_title.dispatchEvent(mouseoverEvent)).to.equal(true);
+				expect(tabA.tab_title.dispatchEvent(clickEvent)).to.equal(true);
+				expect(tabB.tab_title.dispatchEvent(mouseoverEvent)).to.equal(true);
+				expect(tabB.tab_title.dispatchEvent(clickEvent)).to.equal(true);
 		});
 	});
