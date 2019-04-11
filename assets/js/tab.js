@@ -339,7 +339,6 @@ function css(elems, attr, value) {
 		if (isObject(attr)) {
 			for (item in attr) {
 				elems.style[item] = attr[item];
-				
 			}
 		} else if (typeof attr === 'string' && !value) {
 			return  win.getComputedStyle 
@@ -422,7 +421,6 @@ function fideIn(elem, speed, opacity) {
 		}
 	} else {
 				clearInterval(elem.timer);
-				
 					elem.timer = setInterval(function () {
 					if (flagFide) {
 						if (step != opacity) {	
@@ -486,13 +484,8 @@ function fideOut(elem, speed,opacity) {
 		return new TabSwitch(options).inital();
 	};
 
-if (typeof module == 'undefined') {
-	win.module = {};
-	win.module.exports = {};
-	win.module.exports = win.tab;
-} else {
 	module.exports = win.tab;
-}
+
 
 })(window, document);
 
