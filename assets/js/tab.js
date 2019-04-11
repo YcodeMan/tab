@@ -1,6 +1,5 @@
 
 (function (win, doc) {
-	
 	function TabSwitch(options){
 		
 		this.opts = this.getConfig(options);
@@ -21,12 +20,13 @@
 			var self = this;
 			
 			self.setNodes(self.opts.tabList);	
+			self.setWidth();
 			self.setData();
 			self.tabInital();	
 			self._on(self.opts.mouse);
 			self.setTabContent();
 			self.setTxtContent();
-			self.setWidth();
+			
 				return this;
 		},
 		/**
@@ -242,8 +242,11 @@
 			}
 			
 		},
-		setWidth: function () {
-			var w = parseInt(css(this.tab_list[0], 'width')) * (this.tab_list.length) + 'px';
+		setWidth: function (num) {
+			var tabW = typeof num == 'number'
+					? (css(this.tab_list, {width: num + 'px'}),num) : 
+					parseInt(css(this.tab_list[0], 'width'));
+			var w = tabW * (this.tab_list.length) + 'px';
 			css(this.tab,{width: w });
 			css(this.tabParent,{width: w });
 			css(this.tab_cont,{width: w });
@@ -483,7 +486,14 @@ function fideOut(elem, speed,opacity) {
 		return new TabSwitch(options).inital();
 	};
 
-module.exports = win.tab;
+if (typeof module == 'undefined') {
+	win.module = {};
+	win.module.exports = {};
+	win.module.exports = win.tab;
+} else {
+	module.exports = win.tab;
+}
+
 })(window, document);
 
 
