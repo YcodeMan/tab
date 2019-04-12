@@ -93,10 +93,15 @@ describe('Test function', function () {
 						'cont3',	
 						
 			]);
+			const tabE = tab({
+				mouse: 'click'
+			}).setWidth(120);
+			const tabF = tab({
+				mouse: 'click'
+			}).setWidth('120');
 			expect(tabA.changeTab(4)).to.equal(tabA);
 			expect(tabA.setNodes(4).tab_list).to.lengthOf(4);
 			expect(tabA.setTabContent()).to.equal(tabA);
-			expect(tabA.setTxtContent()).to.equal(tabA);
 			expect(tabA.setWidth()).to.equal(tabA);
 			expect(tabB.changeTab(4)).to.not.equal(tabA);
 			expect(tabB.changeTab(4)).to.equal(tabB);
@@ -105,8 +110,10 @@ describe('Test function', function () {
 			expect(tabD.tab_list[0].innerHTML).to.equal('1');
 			expect(tabD.tab_list[1].innerHTML).to.not.equal(2);
 			expect(tabD.tab_list[6].innerHTML).to.equal('Tab7');
-			expect(tabD.tab_cont[0].innerHTML).to.equal('cont1');
 			expect(tabD.tab_cont[6].innerHTML).to.equal('Cont7');
+			expect(tabE.tab_list[0].style.width).to.equal('120px');
+			expect(tabE.tab_cont[0].style.width).to.equal('600px');
+			expect(tabF.tab_cont[0].style.width).to.not.equal('600px');
 			
 		});
 	});

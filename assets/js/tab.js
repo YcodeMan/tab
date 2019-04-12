@@ -243,9 +243,13 @@
 			
 		},
 		setWidth: function (num) {
-			var tabW = typeof num == 'number'
-					? (css(this.tab_list, {width: num + 'px'}),num) : 
-					parseInt(css(this.tab_list[0], 'width'));
+			var tabW;
+			if (typeof num === 'number') {
+				tabW = 	num;
+				(css(this.tab_list, {width: num + 'px'}));
+			} else {
+				tabW = parseInt(css(this.tab_list[0], 'width'));
+			}	
 			var w = tabW * (this.tab_list.length) + 'px';
 			css(this.tab,{width: w });
 			css(this.tabParent,{width: w });
