@@ -1,6 +1,5 @@
 
 (function (win, doc) {
-	
 	function TabSwitch(options){
 		
 		this.opts = this.getConfig(options);
@@ -21,12 +20,13 @@
 			var self = this;
 			
 			self.setNodes(self.opts.tabList);	
+			self.setWidth();
 			self.setData();
 			self.tabInital();	
 			self._on(self.opts.mouse);
 			self.setTabContent();
 			self.setTxtContent();
-			self.setWidth();
+			
 				return this;
 		},
 		/**
@@ -242,8 +242,15 @@
 			}
 			
 		},
-		setWidth: function () {
-			var w = parseInt(css(this.tab_list[0], 'width')) * (this.tab_list.length) + 'px';
+		setWidth: function (num) {
+			var tabW;
+			if (typeof num === 'number') {
+				tabW = 	num;
+				(css(this.tab_list, {width: num + 'px'}));
+			} else {
+				tabW = parseInt(css(this.tab_list[0], 'width'));
+			}	
+			var w = tabW * (this.tab_list.length) + 'px';
 			css(this.tab,{width: w });
 			css(this.tabParent,{width: w });
 			css(this.tab_cont,{width: w });
@@ -336,7 +343,6 @@ function css(elems, attr, value) {
 		if (isObject(attr)) {
 			for (item in attr) {
 				elems.style[item] = attr[item];
-				
 			}
 		} else if (typeof attr === 'string' && !value) {
 			return  win.getComputedStyle 
@@ -419,7 +425,6 @@ function fideIn(elem, speed, opacity) {
 		}
 	} else {
 				clearInterval(elem.timer);
-				
 					elem.timer = setInterval(function () {
 					if (flagFide) {
 						if (step != opacity) {	
@@ -483,7 +488,9 @@ function fideOut(elem, speed,opacity) {
 		return new TabSwitch(options).inital();
 	};
 
-module.exports = win.tab;
+	module.exports = win.tab;
+
+
 })(window, document);
 
 
