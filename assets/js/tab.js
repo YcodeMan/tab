@@ -255,9 +255,6 @@
 				} else {
 					_this.index++;
 				}
-					
-				
-				
 			}, 1000);
 		},
 		sotpAutoPlay: function () {
@@ -266,12 +263,14 @@
 				clearInterval(_this.timer);
 				_this.timer = null;
 			});
+			return this;
 		},
 		startAutoPlay: function () {
 			var _this = this;
 			EventUtil.addHandler(this.tab, 'mouseout', function () {
 				_this.autoPlay();
 			});
+			return this;
 		},
 		setWidth: function (num) {
 			var tabW;
