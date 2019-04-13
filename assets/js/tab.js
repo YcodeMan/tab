@@ -264,6 +264,7 @@
 			var _this = this;
 			EventUtil.addHandler(this.tab, 'mouseover', function () {
 				clearInterval(_this.timer);
+				_this.timer = null;
 			});
 		},
 		startAutoPlay: function () {

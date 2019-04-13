@@ -2,7 +2,7 @@
   This toggle tab
   
 [![Build Status](https://travis-ci.org/YcodeMan/tab.svg?branch=master)](https://travis-ci.org/YcodeMan/tab)
-[![Coverage Status](https://coveralls.io/repos/github/YcodeMan/tab/badge.svg)](https://coveralls.io/github/YcodeMan/tab)
+[![Coverage Status](https://coveralls.io/repos/github/YcodeMan/tab/badge.png)](https://coveralls.io/github/YcodeMan/tab)
 </div>
 
 
