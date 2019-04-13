@@ -12,20 +12,23 @@
 		this.tab_title = null;
 		this.tabCont_wrap = null;
 		
-		
+		this.timer = null;
 		this.index = 0;
 	}
 	TabSwitch.prototype = {
 		inital: function () {
-			var self = this;
-			
-			self.setNodes(self.opts.tabList);	
-			self.setWidth();
-			self.setData();
-			self.tabInital();	
-			self._on(self.opts.mouse);
-			self.setTabContent();
-			self.setTxtContent();
+			this.setNodes(this.opts.tabList);	
+			this.setWidth();
+			this.setData();
+			this.tabInital();	
+			this._on(this.opts.mouse);
+			this.setTabContent();
+			this.setTxtContent();
+			if (this.opts.autoPlay) {
+				this.autoPlay();
+				this.sotpAutoPlay();
+				this.startAutoPlay();
+			}
 			
 				return this;
 		},
@@ -122,18 +125,18 @@
 					css(this.tab_cont[index], {display: 'block'});
 					break;
 			}
+			this.index = index;
 			return this;
 		},
 		_on: function (type) {
-			var self = this;
+			var _this = this;
 			setIndex(this.tab_list);
-			
 			if (type === 'click' || type !== 'hover' ) {
 				EventUtil.addHandler(this.tab_title, 'click', function (event) {
 					var event = win.event || event,
 						target = event.target || event.srcElement;
 						if (target.nodeName === 'A') {
-							self.changeTab(target.index);
+							_this.changeTab(target.index);
 						}
 				});
 				
@@ -142,7 +145,7 @@
 					var event = win.event || event,
 						target = event.target || event.srcElement;
 					if (target.nodeName === 'A') {
-						self.changeTab(target.index);
+						_this.changeTab(target.index);
 					}
 				});
 			}
@@ -241,6 +244,33 @@
 					}
 			}
 			
+		},
+		autoPlay: function () {
+			var _this = this,
+			    len = this.tab_list.length;
+			this.timer = setInterval(function (){
+				_this.changeTab(_this.index);
+				if (_this.index == len - 1) {
+					_this.index = 0;
+				} else {
+					_this.index++;
+				}
+					
+				
+				
+			}, 1000);
+		},
+		sotpAutoPlay: function () {
+			var _this = this;
+			EventUtil.addHandler(this.tab, 'mouseover', function () {
+				clearInterval(_this.timer);
+			});
+		},
+		startAutoPlay: function () {
+			var _this = this;
+			EventUtil.addHandler(this.tab, 'mouseout', function () {
+				_this.autoPlay();
+			});
 		},
 		setWidth: function (num) {
 			var tabW;
