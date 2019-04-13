@@ -7,10 +7,6 @@ var assert = require('assert');
 var expect = require('chai').expect; // 引入Chai
 var tab = require('../assets/js/tab.js');
 
-process.on('unhandledRejection', err => {
-						throw err;
-					});
-
   describe('Is tab  property', function() {
  
   	beforeEach(function() { 
@@ -161,7 +157,7 @@ describe('Test autoPlay', function() {
 
 
 describe('Test  autoPlay Event', function () {
-		it('Event is run ', function () {
+		it('autoPlay Event is run ', function () {
 			const mouseoverEvent = new Event('mouseover');
 			const mouseoutEvent = new Event('mouseout');
 			const tabA = tab({
