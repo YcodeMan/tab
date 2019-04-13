@@ -7,7 +7,6 @@ var assert = require('assert');
 var expect = require('chai').expect; // 引入Chai
 var tab = require('../assets/js/tab.js');
 
-
   describe('Is tab  property', function() {
  
   	beforeEach(function() { 
@@ -16,6 +15,7 @@ var tab = require('../assets/js/tab.js');
 			     checkboxes = dom.window.document.querySelectorAll('#title'); 
 			     
 			    }); 
+			    
 		}); 
 		
     it('tab hasOwnProperty', function() {	
@@ -41,13 +41,14 @@ var tab = require('../assets/js/tab.js');
   });
 
 	describe('defaultConfig', function () {
+		
 		it('modify config', function () {
 			const tabA = tab({
 					tabList: 3,
 					curIndex: 2,
 					mouse: 'hover',
 					changeMethod: 'horizontal',
-					autoPlay: true
+					autoPlay: false
 			});
 			const tabB = tab({
 					tabList: 4,
@@ -60,7 +61,7 @@ var tab = require('../assets/js/tab.js');
 			expect(tabA.opts.curIndex).to.equal(2);
 			expect(tabA.opts.mouse).to.equal('hover');
 			expect(tabA.opts.changeMethod).to.equal('horizontal');
-			expect(tabA.opts.autoPlay).to.equal(true);
+			expect(tabA.opts.autoPlay).to.equal(false);
 			expect(tabB.opts.tabList).to.equal(4);
 			expect(tabB.opts.curIndex).to.equal(4);
 			expect(tabB.opts.mouse).to.equal('click');
@@ -69,6 +70,7 @@ var tab = require('../assets/js/tab.js');
 		});
 	});
 describe('Test function', function () {
+	
 		it('test function', function () {
 			const tabA = tab({
 				changeMethod: 'horizontal'
@@ -120,8 +122,8 @@ describe('Test function', function () {
 
 describe('Test Event', function () {
 		it('Event is run ', function () {
-			const mouseoverEvent = new Event('mouseover');
-			const clickEvent = new Event('click');
+			const mouseoverEvent = new Event('mouseover', {'bubbles': true});
+			const clickEvent = new Event('click', {'bubbles': true});
 			const tabA = tab({
 				mouse: 'hover'
 			});
@@ -129,8 +131,44 @@ describe('Test Event', function () {
 				mouse: 'click'
 			});
 				expect(tabA.tab_title.dispatchEvent(mouseoverEvent)).to.equal(true);
-				expect(tabA.tab_title.dispatchEvent(clickEvent)).to.equal(true);
-				expect(tabB.tab_title.dispatchEvent(mouseoverEvent)).to.equal(true);
+				expect(tabA.tab_list[0].dispatchEvent(mouseoverEvent)).to.equal(true);
 				expect(tabB.tab_title.dispatchEvent(clickEvent)).to.equal(true);
+				expect(tabB.tab_list[0].dispatchEvent(clickEvent)).to.equal(true);
+		});
+	});
+
+describe('Test autoPlay', function() {
+	this.timeout(0);
+  it('test autoPlay run 5s', function(done) {
+     const tabA = tab({
+					tabList: 5,
+					curIndex: 2,
+					mouse: 'hover',
+					changeMethod: 'horizontal',
+					autoPlay: true
+			});
+			 setTimeout(function(){
+			 	clearInterval(tabA.timer);
+	           	expect(tabA.index).to.equal(1);
+	           	done();
+      	 	}, 5000)
+  });
+});
+
+
+describe('Test  autoPlay Event', function () {
+		it('autoPlay Event is run ', function () {
+			const mouseoverEvent = new Event('mouseover');
+			const mouseoutEvent = new Event('mouseout');
+			const tabA = tab({
+				mouse: 'hover',
+				autoPlay: true
+			});
+			setTimeout (function () {
+				expect(tabA.tab.dispatchEvent(mouseoverEvent)).to.equal(true);
+				expect(tabA.tab.dispatchEvent(mouseoutEvent)).to.equal(true);
+				clearInterval(tabA.timer);
+			},100);
+				
 		});
 	});
