@@ -16,6 +16,7 @@
 		this.index = 0;
 	}
 	TabSwitch.prototype = {
+		constructor: TabSwitch,
 		inital: function () {
 			this.setNodes(this.opts.tabList);	
 			this.setWidth();

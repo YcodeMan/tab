@@ -25,3 +25,14 @@ Now, we can create a tab. We add a script to our page:
                 autoPlay: false
             });
 ```
+Default configuration param
+``` javascript
+  var defaultConfig = {
+				tabList: 5,
+				curIndex: 1,
+				mouse: 'click',
+				changeMethod: 'default',
+				autoPlay: false
+			}
+```
+				
