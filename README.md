@@ -35,4 +35,17 @@ Default configuration param
 				autoPlay: false
 			}
 ```
-				
+* tabList
+The number tab
+* curIndex
+Show the current tab
+* mouse
+mouse : click / hover
+click or mouseover handler
+* changeMethod
+changeMethod: default/vertical/horizontal/opacity
+The way to switch content
+* autoPlay
+autoPlay : false/true
+Is swicth by auto 	
+			
